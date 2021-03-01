@@ -1,0 +1,16 @@
+{
+  "name": "bankingApp",
+  "version": "1.0.0",
+  "description": "install node from https://nodejs.org/en/download/\r ```\r node Backbase.js sample_data_csv.csv\r ```\r replace sample_data_csv.csv with name of .csv file",
+  "main": "Backbase.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
