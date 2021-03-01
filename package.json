@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "install node from https://nodejs.org/en/download/\r ```\r node Backbase.js sample_data_csv.csv\r ```\r replace sample_data_csv.csv with name of .csv file",
   "main": "Backbase.js",
-  "dependencies": {},
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "export-to-csv": "^0.2.1",
+    "objects-to-csv": "^1.3.6"
+  },
   "devDependencies": {
     "jest": "^26.6.3"
   },
