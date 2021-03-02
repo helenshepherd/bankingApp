@@ -1,7 +1,6 @@
 const processTransactions = require("./processTransactions");
 
-//check if savings account has insufficient funds, doesn't transfer
-//check if different time zone (causing different date)
+
 const firstTestData = [
   {
     AccountID: "123",
@@ -141,23 +140,23 @@ const secondResults = [
   {
     AccountID: "789",
     AccountType: "CURRENT",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-01T07:20:00Z",
-    TransactionValue: "-20.23",
-  },
-  {
-    AccountID: "789",
-    AccountType: "CURRENT",
     InitiatorType: "SYSTEM",
-    DateTime: "2019-01-01T23:59:59Z",
-    TransactionValue: "47.66",
+    DateTime: "2018-12-30T23:59:59Z",
+    TransactionValue: "27.43",
   },
   {
     AccountID: "123",
     AccountType: "SAVINGS",
     InitiatorType: "SYSTEM",
-    DateTime: "2019-01-01T23:59:59Z",
-    TransactionValue: "-47.66",
+    DateTime: "2018-12-30T23:59:59Z",
+    TransactionValue: "-27.43",
+  },
+  {
+    AccountID: "789",
+    AccountType: "CURRENT",
+    InitiatorType: "ACCOUNT-HOLDER",
+    DateTime: "2019-01-01T07:20:00Z",
+    TransactionValue: "-20.23",
   },
   {
     AccountID: "123",
@@ -165,6 +164,20 @@ const secondResults = [
     InitiatorType: "ACCOUNT-HOLDER",
     DateTime: "2019-01-01T09:10:00Z",
     TransactionValue: "10.56",
+  },  
+  {
+    AccountID: "789",
+    AccountType: "CURRENT",
+    InitiatorType: "SYSTEM",
+    DateTime: "2019-01-01T23:59:59Z",
+    TransactionValue: "20.23",
+  },
+  {
+    AccountID: "123",
+    AccountType: "SAVINGS",
+    InitiatorType: "SYSTEM",
+    DateTime: "2019-01-01T23:59:59Z",
+    TransactionValue: "-20.23",
   },
   {
     AccountID: "789",
@@ -187,102 +200,60 @@ const thirdTestData = [
     AccountID: "789",
     AccountType: "CURRENT",
     InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2018-12-30T09:10:00Z",
-    TransactionValue: "50.00",
-  },
-  {
-    AccountID: "789",
-    AccountType: "CURRENT",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2018-12-30T23:20:00Z",
-    TransactionValue: "-77.43",
-  },
-  {
-    AccountID: "789",
-    AccountType: "CURRENT",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-01T07:20:00Z",
-    TransactionValue: "-20.23",
+    DateTime: "2021-01-04T16:38:48Z",
+    TransactionValue: "-27.50",
   },
   {
     AccountID: "123",
     AccountType: "SAVINGS",
     InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-01T09:10:00Z",
-    TransactionValue: "10.56",
+    DateTime: "2021-01-03T10:10:00Z",
+    TransactionValue: "12.50",
   },
   {
-    AccountID: "123",
-    AccountType: "SAVINGS",
+    AccountID: "789",
+    AccountType: "CURRENT",
     InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-02T09:10:00Z",
-    TransactionValue: "100.00",
+    DateTime: "2021-01-03T13:34:28Z",
+    TransactionValue: "-30.00",
   },
-];
+]
 
 const thirdResults = [
   {
-    AccountID: "789",
-    AccountType: "CURRENT",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2018-12-30T09:10:00Z",
-    TransactionValue: "50.00",
-  },
-  {
-    AccountID: "789",
-    AccountType: "CURRENT",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2018-12-30T23:20:00Z",
-    TransactionValue: "-77.43",
-  },
-  {
-    AccountID: "789",
-    AccountType: "CURRENT",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-01T07:20:00Z",
-    TransactionValue: "-20.23",
-  },
-  {
     AccountID: "123",
     AccountType: "SAVINGS",
     InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-01T09:10:00Z",
-    TransactionValue: "10.56",
+    DateTime: "2021-01-03T10:10:00Z",
+    TransactionValue: "12.50",
+  },
+  {
+    AccountID: "789",
+    AccountType: "CURRENT",
+    InitiatorType: "ACCOUNT-HOLDER",
+    DateTime: "2021-01-03T13:34:28Z",
+    TransactionValue: "-30.00",
   },
   {
     AccountID: "789",
     AccountType: "CURRENT",
     InitiatorType: "SYSTEM",
-    DateTime: "2019-01-01T23:59:59Z",
-    TransactionValue: "10.56",
+    DateTime: "2021-01-03T23:59:59Z",
+    TransactionValue: "12.50",
   },
   {
     AccountID: "123",
     AccountType: "SAVINGS",
     InitiatorType: "SYSTEM",
-    DateTime: "2019-01-01T23:59:59Z",
-    TransactionValue: "-10.56",
-  },
-  {
-    AccountID: "123",
-    AccountType: "SAVINGS",
-    InitiatorType: "ACCOUNT-HOLDER",
-    DateTime: "2019-01-02T09:10:00Z",
-    TransactionValue: "100.00",
+    DateTime: "2021-01-03T23:59:59Z",
+    TransactionValue: "-12.50",
   },
   {
     AccountID: "789",
     AccountType: "CURRENT",
-    InitiatorType: "SYSTEM",
-    DateTime: "2019-01-02T23:59:59Z",
-    TransactionValue: "37.10",
-  },
-  {
-    AccountID: "123",
-    AccountType: "SAVINGS",
-    InitiatorType: "SYSTEM",
-    DateTime: "2019-01-02T23:59:59Z",
-    TransactionValue: "-37.10",
+    InitiatorType: "ACCOUNT-HOLDER",
+    DateTime: "2021-01-04T16:38:48Z",
+    TransactionValue: "-27.50",
   },
 ];
 
@@ -294,6 +265,8 @@ test("Second set of test data, testing inputted transactions", () => {
   expect(processTransactions(secondTestData)).toStrictEqual(secondResults);
 });
 
-test("Third set of test data, testing insufficient savings funds", () => {
+test("Third set of test data, testing saving less than overdrawn amount", () => {
   expect(processTransactions(thirdTestData)).toStrictEqual(thirdResults);
 });
+
+

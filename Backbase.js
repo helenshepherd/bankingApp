@@ -3,17 +3,25 @@ const csv = require("csv-parser");
 const fs = require("fs");
 const results = [];
 
-let currentAccount = 0;
-let savingsAccount = 0;
+
 const currentAccountType = "CURRENT";
 const savingsAccountType = "SAVINGS";
 const systemInitiatorType = "SYSTEM";
 
 
 function processTransactions(transactions) {
+    let currentAccount = 0;
+    let savingsAccount = 0;
+
+    transactions.sort(function compare(a,b){
+      var dateA = new Date(a.DateTime);
+      var dateB = new Date(b.DateTime);
+      return dateA - dateB;
+    });
+
     const output = [];
     function checkTransaction(transaction, index) {
-      console.log(transaction.TransactionValue)
+
 
       const currentAccountID = transactions.find(
         (element) => element.AccountType === currentAccountType
@@ -79,7 +87,6 @@ function processTransactions(transactions) {
           }
           else if (savingsAccount > 0) {
             let newTransactionAmount = savingsAccount;
-            console.log(newTransactionAmount);
             currentAccount += savingsAccount;
             savingsAccount = 0;
 
@@ -88,7 +95,6 @@ function processTransactions(transactions) {
           }
         }
       }
-
     }
   
     transactions.forEach(checkTransaction);
