@@ -9,7 +9,6 @@ const currentAccountType = "CURRENT";
 const savingsAccountType = "SAVINGS";
 const systemInitiatorType = "SYSTEM";
 
-let newTransactionAmount = 0;
 
 function processTransactions(transactions) {
     const output = [];
@@ -27,24 +26,24 @@ function processTransactions(transactions) {
 
       endOfDay.setUTCHours(23, 59, 59);
      
-      function createCurrentAccountTransaction() {
+      function createCurrentAccountTransaction(amount) {
         let newCurrentTransaction = {
           AccountID: currentAccountID,
           AccountType: currentAccountType,
           InitiatorType: systemInitiatorType,
           DateTime: endOfDay.toISOString().split('.')[0]+"Z",
-          TransactionValue: newTransactionAmount.toFixed(2),
+          TransactionValue: amount.toFixed(2),
         };
         output.push(newCurrentTransaction);
       }
   
-      function createSavingsAccountTransaction() {
+      function createSavingsAccountTransaction(amount) {
         let newSavingsTransaction = {
           AccountID: savingsAccountID,
           AccountType: savingsAccountType,
           InitiatorType: systemInitiatorType,
           DateTime: endOfDay.toISOString().split('.')[0]+"Z",
-          TransactionValue: String(parseFloat(-newTransactionAmount).toFixed(2)),
+          TransactionValue: String(parseFloat(-amount).toFixed(2)),
         };
         output.push(newSavingsTransaction);
       }
@@ -65,8 +64,8 @@ function processTransactions(transactions) {
       }
   
       if (
-        index + 1 === transactions.length ||
-        sameDay(transactionDateTime, new Date(transactions[index + 1].DateTime))
+        index + 1 === transactions.length || 
+        ! sameDay(transactionDateTime, new Date(transactions[index + 1].DateTime))
       ) {
         if (currentAccount < 0) {
           amountOverdrawn = 0 - currentAccount;
@@ -74,23 +73,22 @@ function processTransactions(transactions) {
           if (savingsAccount > amountOverdrawn) {
             savingsAccount -= amountOverdrawn;
             currentAccount += amountOverdrawn;
-            
-            let newTransactionAmount = amountOverdrawn;
 
-            createCurrentAccountTransaction(transaction);
-            createSavingsAccountTransaction(transaction);
+            createCurrentAccountTransaction(amountOverdrawn);
+            createSavingsAccountTransaction(amountOverdrawn);
           }
           else if (savingsAccount > 0) {
             let newTransactionAmount = savingsAccount;
-            
+            console.log(newTransactionAmount);
             currentAccount += savingsAccount;
             savingsAccount = 0;
 
-            createCurrentAccountTransaction(transaction);
-            createSavingsAccountTransaction(transaction);
+            createCurrentAccountTransaction(newTransactionAmount);
+            createSavingsAccountTransaction(newTransactionAmount);
           }
         }
       }
+
     }
   
     transactions.forEach(checkTransaction);
