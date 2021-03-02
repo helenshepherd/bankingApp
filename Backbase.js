@@ -9,9 +9,13 @@ const currentAccountType = "CURRENT";
 const savingsAccountType = "SAVINGS";
 const systemInitiatorType = "SYSTEM";
 
+let newTransactionAmount = 0;
+
 function processTransactions(transactions) {
     const output = [];
     function checkTransaction(transaction, index) {
+      console.log(transaction.TransactionValue)
+
       const currentAccountID = transactions.find(
         (element) => element.AccountType === currentAccountType
       ).AccountID;
@@ -29,7 +33,7 @@ function processTransactions(transactions) {
           AccountType: currentAccountType,
           InitiatorType: systemInitiatorType,
           DateTime: endOfDay.toISOString().split('.')[0]+"Z",
-          TransactionValue: amountOverdrawn.toFixed(2),
+          TransactionValue: newTransactionAmount.toFixed(2),
         };
         output.push(newCurrentTransaction);
       }
@@ -40,7 +44,7 @@ function processTransactions(transactions) {
           AccountType: savingsAccountType,
           InitiatorType: systemInitiatorType,
           DateTime: endOfDay.toISOString().split('.')[0]+"Z",
-          TransactionValue: String(parseFloat(-amountOverdrawn).toFixed(2)),
+          TransactionValue: String(parseFloat(-newTransactionAmount).toFixed(2)),
         };
         output.push(newSavingsTransaction);
       }
@@ -70,7 +74,18 @@ function processTransactions(transactions) {
           if (savingsAccount > amountOverdrawn) {
             savingsAccount -= amountOverdrawn;
             currentAccount += amountOverdrawn;
-  
+            
+            let newTransactionAmount = amountOverdrawn;
+
+            createCurrentAccountTransaction(transaction);
+            createSavingsAccountTransaction(transaction);
+          }
+          else if (savingsAccount > 0) {
+            let newTransactionAmount = savingsAccount;
+            
+            currentAccount += savingsAccount;
+            savingsAccount = 0;
+
             createCurrentAccountTransaction(transaction);
             createSavingsAccountTransaction(transaction);
           }
